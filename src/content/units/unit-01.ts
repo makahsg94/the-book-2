@@ -152,6 +152,10 @@ const lesson1A: Lesson = {
         'My parents live back home in Poland.',
       ],
       bankPage: 104,
+      videos: [
+        { id: '7dvV6oPbRxE', title: 'Present Simple and Present Continuous Tenses - 5 Levels of Difficulty' },
+        { id: 'jXtHCBgbks0', title: 'Adverbs in English - Learn All About English Adverbs' },
+      ],
     },
     {
       type: 'exercise',
@@ -534,6 +538,9 @@ const lesson1B: Lesson = {
         'Helping people is what Ridsdale does.',
       ],
       bankPage: 105,
+      videos: [
+        { id: '6Dna4Tl_YlA', title: '9 Parts of Speech in English - English Grammar Lesson' },
+      ],
     },
     {
       type: 'exercise',
@@ -943,6 +950,9 @@ title: 'BBC Street Interviews: lifestyle',
         'I want to travel a bit more.',
       ],
       bankPage: 107,
+      videos: [
+        { id: 'UlNuPWiyK9Y', title: 'Adjectives and Adverbs in English - 5 Levels of Difficulty' },
+      ],
     },
     {
       type: 'exercise',

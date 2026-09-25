@@ -199,6 +199,9 @@ export const unit05: Unit = {
             'The boys, who were aged eight, ten and twelve, let the spider bite them.',
           ],
           bankPage: 120,
+          videos: [
+            { id: 'W-uPiTB877c', title: 'Complex Sentences in English Writing - Learn How to Make Complex Sentences' },
+          ],
         },
         {
           type: 'exercise',
@@ -360,6 +363,10 @@ export const unit05: Unit = {
             'The governor said that Bali would ban single-use plastic bags.',
           ],
           bankPage: 121,
+          videos: [
+            { id: 'W-uPiTB877c', title: 'Complex Sentences in English Writing - Learn How to Make Complex Sentences' },
+            { id: 'hk4MjcRdTgc', title: 'English Verb Tenses Guide - Learn About Simple, Perfect, and Continuous Tenses' },
+          ],
         },
         {
           type: 'exercise',
@@ -692,6 +699,10 @@ export const unit05: Unit = {
             'We probably won\u2019t publish stories about disasters.',
           ],
           bankPage: 123,
+          videos: [
+            { id: 'WlT8fR9aWkY', title: 'How to Use Will, Would and Might - English Modal Verbs Lesson' },
+            { id: '0anZBvnj6LM', title: 'Future in English - How to Talk about the Future' },
+          ],
         },
         {
           type: 'exercise',

@@ -169,6 +169,10 @@ export const unit08: Unit = {
             "I couldn't do any of that a few years ago.",
           ],
           bankPage: 132,
+          videos: [
+            { id: 'FMGxeChtYLc', title: 'English Modal Verbs - May, Might, Could, Can - Talking About Possibilities' },
+            { id: '4GMU08J98MQ', title: 'Complete Guide to English Modal Verbs - English Grammar Lesson' },
+          ],
         },
         {
           type: 'exercise',
@@ -361,6 +365,9 @@ export const unit08: Unit = {
             'When students watch these videos, they feel more motivated.',
           ],
           bankPage: 133,
+          videos: [
+            { id: 'CmqOXaSUpFo', title: 'How to Use the Passive Voice in English - English Grammar Lesson' },
+          ],
         },
         {
           type: 'exercise',
@@ -653,6 +660,10 @@ export const unit08: Unit = {
             'Have you tried restarting it?',
             'Maybe you could check the wifi.',
           ],
+          videos: [
+            { id: '4GMU08J98MQ', title: 'Complete Guide to English Modal Verbs - English Grammar Lesson' },
+            { id: 'fMBHNI2Tyq8', title: 'How to Use Should, Ought to, Supposed to and Had Better - English Modal Verbs Lesson' },
+          ],
         },
         {
           type: 'pages',
@@ -711,6 +722,9 @@ export const unit08: Unit = {
             'I recommend going to a class.',
           ],
           bankPage: 135,
+          videos: [
+            { id: '0djfJqWhnpY', title: 'How to Use the Present Continuous - English Verb Tenses Grammar Lesson' },
+          ],
         },
         {
           type: 'exercise',

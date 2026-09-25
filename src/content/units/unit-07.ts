@@ -186,6 +186,9 @@ export const unit07: Unit = {
             "If everyone took their litter home with them, tourist destinations would be a lot cleaner and more attractive.",
           ],
           bankPage: 128,
+          videos: [
+            { id: 'tfSi3foze3Q', title: 'Using Conditional Sentences in English - 5 Levels of Difficulty' },
+          ],
         },
         {
           type: 'exercise',
@@ -816,6 +819,9 @@ export const unit07: Unit = {
             'You always go by yourself.',
           ],
           bankPage: 131,
+          videos: [
+            { id: '6Dna4Tl_YlA', title: '9 Parts of Speech in English - English Grammar Lesson' },
+          ],
         },
         {
           type: 'exercise',

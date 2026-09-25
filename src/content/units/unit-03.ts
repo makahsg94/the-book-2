@@ -211,6 +211,9 @@ const lesson3A: Lesson = {
         'What do you know a lot about?',
       ],
       bankPage: 112,
+      videos: [
+        { id: 'PLC-_TXsrXA', title: 'How to Use Do in English - 5 Levels of English Grammar' },
+      ],
     },
     {
       type: 'exercise',
@@ -537,6 +540,10 @@ const lesson3B: Lesson = {
         'I might get a job in a local restaurant.',
       ],
       bankPage: 113,
+      videos: [
+        { id: '0anZBvnj6LM', title: 'Future in English - How to Talk about the Future' },
+        { id: 'WlT8fR9aWkY', title: 'How to Use Will, Would and Might - English Modal Verbs Lesson' },
+      ],
     },
     {
       type: 'exercise',
@@ -771,6 +778,9 @@ const lesson3C: Lesson = {
         'Could you tell me if I can use the gym?',
       ],
       bankPage: 114,
+      videos: [
+        { id: 'W-uPiTB877c', title: 'Complex Sentences in English Writing - Learn How to Make Complex Sentences' },
+      ],
     },
     {
       type: 'exercise',
@@ -1039,6 +1049,9 @@ const lesson3D: Lesson = {
         'I put on a song. / I put a song on.',
       ],
       bankPage: 115,
+      videos: [
+        { id: '6Dna4Tl_YlA', title: '9 Parts of Speech in English - English Grammar Lesson' },
+      ],
     },
     {
       type: 'exercise',

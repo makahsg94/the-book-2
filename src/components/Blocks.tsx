@@ -3,6 +3,7 @@ import type { ContentBlock } from '../types/content'
 import { Quiz } from './Exercise'
 import { AudioPlayer } from './Media'
 import { VideoCard } from './VideoCard'
+import { GrammarVideos } from './GrammarVideos'
 import { PageFigure } from './PageFigure'
 import EchoLab from './EchoLab'
 import {
@@ -423,6 +424,7 @@ export default function Blocks({ blocks }: { blocks: ContentBlock[] }) {
                       </ul>
                     </div>
                   )}
+                  {block.videos && block.videos.length > 0 && <GrammarVideos videos={block.videos} />}
                   {block.bankPage && <BankLink page={block.bankPage} />}
                 </div>
               </section>

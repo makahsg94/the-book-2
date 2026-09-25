@@ -132,6 +132,10 @@ const lesson2A: Lesson = {
         'When I found the right place, the driver had already left.',
       ],
       bankPage: 108,
+      videos: [
+        { id: 'rZS5qlCGCIY', title: 'How to Talk About the Past in English' },
+        { id: 'iKi4Jy6r-0s', title: 'How to Use the Past Perfect Tense in English - English Grammar Lesson' },
+      ],
     },
     {
       type: 'exercise',
@@ -522,6 +526,9 @@ const lesson2B: Lesson = {
         'In December 2019, researchers in Indonesia found a cave with paintings.',
       ],
       bankPage: 109,
+      videos: [
+        { id: 'hk4MjcRdTgc', title: 'English Verb Tenses Guide - Learn About Simple, Perfect, and Continuous Tenses' },
+      ],
     },
     {
       type: 'exercise',
@@ -1102,6 +1109,9 @@ const lesson2D: Lesson = {
         'The changes happened during the 1950s.',
       ],
       bankPage: 111,
+      videos: [
+        { id: 'ViVuOsdaHHs', title: 'How to Talk About Time in English - Time Prepositions and Phrases' },
+      ],
     },
     {
       type: 'text',

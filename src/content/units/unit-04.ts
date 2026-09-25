@@ -216,6 +216,9 @@ export const unit04: Unit = {
             'You should be nice to people, but you needn\u2019t work all the time.',
           ],
           bankPage: 116,
+          videos: [
+            { id: 'POFfLs0Uaio', title: 'Modal Verbs - How to Use Must, Have to and Should - English Grammar Lesson' },
+          ],
         },
         {
           type: 'exercise',
@@ -357,6 +360,10 @@ export const unit04: Unit = {
             'The puzzle of who made the first flight remains one of the biggest questions in aeroplane history.',
           ],
           bankPage: 117,
+          videos: [
+            { id: '4ZufR8iYL7w', title: 'Articles in English - 5 Levels of Difficulty' },
+            { id: 'r49hrj4cK5U', title: 'How to Use The - Articles in English Grammar' },
+          ],
         },
         {
           type: 'audio',
@@ -718,6 +725,9 @@ export const unit04: Unit = {
             'The aim of the game is to score more goals than the other team.',
           ],
           bankPage: 118,
+          videos: [
+            { id: '4GMU08J98MQ', title: 'Complete Guide to English Modal Verbs - English Grammar Lesson' },
+          ],
         },
         {
           type: 'exercise',
@@ -909,6 +919,10 @@ export const unit04: Unit = {
             "It's the longest journey I've been on!",
           ],
           bankPage: 119,
+          videos: [
+            { id: 'zBzUJlOo930', title: 'Present Perfect Verb Tense - English Grammar Lesson' },
+            { id: 'wC5GPzMb9BE', title: 'How to Use Adjectives in English - English Grammar Course' },
+          ],
         },
         {
           type: 'exercise',

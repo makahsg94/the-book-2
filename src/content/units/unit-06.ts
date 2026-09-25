@@ -113,6 +113,9 @@ export const unit06: Unit = {
             'We used to live in the countryside.',
           ],
           bankPage: 124,
+          videos: [
+            { id: 'rZS5qlCGCIY', title: 'How to Talk About the Past in English' },
+          ],
         },
         {
           type: 'exercise',
@@ -316,6 +319,10 @@ export const unit06: Unit = {
             'It\u2019s the hardest thing about cooking.',
           ],
           bankPage: 125,
+          videos: [
+            { id: 'wC5GPzMb9BE', title: 'How to Use Adjectives in English - English Grammar Course' },
+            { id: 'UlNuPWiyK9Y', title: 'Adjectives and Adverbs in English - 5 Levels of Difficulty' },
+          ],
         },
         {
           type: 'exercise',
@@ -767,6 +774,10 @@ export const unit06: Unit = {
             "Yinka hasn't seen the finished sculpture yet.",
           ],
           bankPage: 127,
+          videos: [
+            { id: 'zBzUJlOo930', title: 'Present Perfect Verb Tense - English Grammar Lesson' },
+            { id: 'YwY1SvH3Mp8', title: 'How to Use the Present Perfect Simple and Present Perfect Continuous' },
+          ],
         },
         {
           type: 'exercise',

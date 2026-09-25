@@ -136,6 +136,21 @@ export interface GrammarTableRow {
   values: string[]
 }
 
+/**
+ * A video from the "Oxford Online English Grammar" YouTube playlist
+ * (https://www.youtube.com/playlist?list=PLD6t6ckHsruY_i7_rZhKcRBmXDdawiqUM)
+ * that explains the grammar point.
+ */
+export interface GrammarVideo {
+  /** 11-character YouTube video id */
+  id: string
+  /** video title exactly as it appears in the playlist */
+  title: string
+}
+
+/** Canonical playlist every GrammarVideo is taken from. */
+export const OXFORD_GRAMMAR_PLAYLIST = 'PLD6t6ckHsruY_i7_rZhKcRBmXDdawiqUM'
+
 export type ContentBlock =
   | {
       type: 'text'
@@ -175,6 +190,8 @@ export type ContentBlock =
       examples?: string[]
       /** optional link to grammar bank book page */
       bankPage?: number
+      /** Oxford Online English Grammar videos that explain this point */
+      videos?: GrammarVideo[]
     }
   | {
       type: 'examples'
