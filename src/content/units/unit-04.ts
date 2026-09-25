@@ -218,6 +218,8 @@ export const unit04: Unit = {
           bankPage: 116,
           videos: [
             { id: 'POFfLs0Uaio', title: 'Modal Verbs - How to Use Must, Have to and Should - English Grammar Lesson' },
+            { id: '4GMU08J98MQ', title: 'Complete Guide to English Modal Verbs - English Grammar Lesson' },
+            { id: 'oiIa2nAHkBw', title: 'How to Use Must in English - English Modal Verbs' },
           ],
         },
         {
@@ -727,6 +729,8 @@ export const unit04: Unit = {
           bankPage: 118,
           videos: [
             { id: '4GMU08J98MQ', title: 'Complete Guide to English Modal Verbs - English Grammar Lesson' },
+            { id: 'rrSl1bQcnoI', title: 'Using the Verb Be - 5 Levels of English Grammar' },
+            { id: 'POFfLs0Uaio', title: 'Modal Verbs - How to Use Must, Have to and Should - English Grammar Lesson' },
           ],
         },
         {
@@ -922,6 +926,7 @@ export const unit04: Unit = {
           videos: [
             { id: 'zBzUJlOo930', title: 'Present Perfect Verb Tense - English Grammar Lesson' },
             { id: 'wC5GPzMb9BE', title: 'How to Use Adjectives in English - English Grammar Course' },
+            { id: 'UlNuPWiyK9Y', title: 'Adjectives and Adverbs in English - 5 Levels of Difficulty' },
           ],
         },
         {

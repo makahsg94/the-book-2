@@ -663,6 +663,7 @@ export const unit08: Unit = {
           videos: [
             { id: '4GMU08J98MQ', title: 'Complete Guide to English Modal Verbs - English Grammar Lesson' },
             { id: 'fMBHNI2Tyq8', title: 'How to Use Should, Ought to, Supposed to and Had Better - English Modal Verbs Lesson' },
+            { id: '0djfJqWhnpY', title: 'How to Use the Present Continuous - English Verb Tenses Grammar Lesson' },
           ],
         },
         {
@@ -724,6 +725,7 @@ export const unit08: Unit = {
           bankPage: 135,
           videos: [
             { id: '0djfJqWhnpY', title: 'How to Use the Present Continuous - English Verb Tenses Grammar Lesson' },
+            { id: '6Dna4Tl_YlA', title: '9 Parts of Speech in English - English Grammar Lesson' },
           ],
         },
         {

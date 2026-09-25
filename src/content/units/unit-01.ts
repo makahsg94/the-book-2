@@ -154,6 +154,7 @@ const lesson1A: Lesson = {
       bankPage: 104,
       videos: [
         { id: '7dvV6oPbRxE', title: 'Present Simple and Present Continuous Tenses - 5 Levels of Difficulty' },
+        { id: 'hk4MjcRdTgc', title: 'English Verb Tenses Guide - Learn About Simple, Perfect, and Continuous Tenses' },
         { id: 'jXtHCBgbks0', title: 'Adverbs in English - Learn All About English Adverbs' },
       ],
     },
@@ -540,6 +541,7 @@ const lesson1B: Lesson = {
       bankPage: 105,
       videos: [
         { id: '6Dna4Tl_YlA', title: '9 Parts of Speech in English - English Grammar Lesson' },
+        { id: 'SDO8mP45hr8', title: 'Should You Use TO or FOR? - 5 Levels of English Grammar' },
       ],
     },
     {
@@ -952,6 +954,7 @@ title: 'BBC Street Interviews: lifestyle',
       bankPage: 107,
       videos: [
         { id: 'UlNuPWiyK9Y', title: 'Adjectives and Adverbs in English - 5 Levels of Difficulty' },
+        { id: 'wC5GPzMb9BE', title: 'How to Use Adjectives in English - English Grammar Course' },
       ],
     },
     {

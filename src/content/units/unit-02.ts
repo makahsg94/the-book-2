@@ -135,6 +135,7 @@ const lesson2A: Lesson = {
       videos: [
         { id: 'rZS5qlCGCIY', title: 'How to Talk About the Past in English' },
         { id: 'iKi4Jy6r-0s', title: 'How to Use the Past Perfect Tense in English - English Grammar Lesson' },
+        { id: 'hk4MjcRdTgc', title: 'English Verb Tenses Guide - Learn About Simple, Perfect, and Continuous Tenses' },
       ],
     },
     {
@@ -528,6 +529,8 @@ const lesson2B: Lesson = {
       bankPage: 109,
       videos: [
         { id: 'hk4MjcRdTgc', title: 'English Verb Tenses Guide - Learn About Simple, Perfect, and Continuous Tenses' },
+        { id: 'rZS5qlCGCIY', title: 'How to Talk About the Past in English' },
+        { id: 'zBzUJlOo930', title: 'Present Perfect Verb Tense - English Grammar Lesson' },
       ],
     },
     {
@@ -1111,6 +1114,7 @@ const lesson2D: Lesson = {
       bankPage: 111,
       videos: [
         { id: 'ViVuOsdaHHs', title: 'How to Talk About Time in English - Time Prepositions and Phrases' },
+        { id: 'By94mMolWUI', title: 'How to Use To, In, and At - Prepositions in English Grammar' },
       ],
     },
     {

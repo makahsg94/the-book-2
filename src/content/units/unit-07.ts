@@ -821,6 +821,7 @@ export const unit07: Unit = {
           bankPage: 131,
           videos: [
             { id: '6Dna4Tl_YlA', title: '9 Parts of Speech in English - English Grammar Lesson' },
+            { id: 'Ink-Mp4euI8', title: 'Understand English Grammar and Sentence Structure - Strange Sentences' },
           ],
         },
         {

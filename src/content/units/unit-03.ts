@@ -213,6 +213,7 @@ const lesson3A: Lesson = {
       bankPage: 112,
       videos: [
         { id: 'PLC-_TXsrXA', title: 'How to Use Do in English - 5 Levels of English Grammar' },
+        { id: 'W-uPiTB877c', title: 'Complex Sentences in English Writing - Learn How to Make Complex Sentences' },
       ],
     },
     {
@@ -543,6 +544,7 @@ const lesson3B: Lesson = {
       videos: [
         { id: '0anZBvnj6LM', title: 'Future in English - How to Talk about the Future' },
         { id: 'WlT8fR9aWkY', title: 'How to Use Will, Would and Might - English Modal Verbs Lesson' },
+        { id: '0djfJqWhnpY', title: 'How to Use the Present Continuous - English Verb Tenses Grammar Lesson' },
       ],
     },
     {
@@ -780,6 +782,7 @@ const lesson3C: Lesson = {
       bankPage: 114,
       videos: [
         { id: 'W-uPiTB877c', title: 'Complex Sentences in English Writing - Learn How to Make Complex Sentences' },
+        { id: 'Ink-Mp4euI8', title: 'Understand English Grammar and Sentence Structure - Strange Sentences' },
       ],
     },
     {
@@ -1051,6 +1054,7 @@ const lesson3D: Lesson = {
       bankPage: 115,
       videos: [
         { id: '6Dna4Tl_YlA', title: '9 Parts of Speech in English - English Grammar Lesson' },
+        { id: 'SDO8mP45hr8', title: 'Should You Use TO or FOR? - 5 Levels of English Grammar' },
       ],
     },
     {

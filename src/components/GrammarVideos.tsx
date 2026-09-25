@@ -28,7 +28,7 @@ export function GrammarVideos({ videos }: { videos: GrammarVideo[] }) {
         </span>
       </p>
 
-      <ul className="grid gap-2 sm:grid-cols-2">
+      <ul className={`grid gap-2 ${videos.length > 1 ? 'sm:grid-cols-2' : ''}`}>
         {videos.map((v) => (
           <li key={v.id}>
             <a
