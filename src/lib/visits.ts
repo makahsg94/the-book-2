@@ -2,6 +2,7 @@ import { getSupabase } from './supabase'
 
 const VISITOR_KEY = 'speakout-b1.visitor.v1'
 const pingTimers: Record<string, number> = {}
+let hashBound = false
 
 export function visitorKey(): string {
   try {
@@ -16,33 +17,45 @@ export function visitorKey(): string {
   }
 }
 
-/** يُستدعى مرة واحدة مع تحميل الصفحة: تعدّ فتحة جديدة ويعمل update لآخر ظهور */
-export function recordOpen() {
+/** المسار الحالي (من الـ hash router) عشان نعرف مين فتح صفحة المدرب */
+function currentPath(): string {
+  const raw = window.location.hash.replace(/^#/, '')
+  return (raw.split('?')[0] || '/').slice(0, 120)
+}
+
+function fire() {
   const sb = getSupabase()
   if (!sb) {
     console.warn('[visits] no Supabase client — visit tracking is OFF')
     return
   }
   const key = visitorKey()
-  queuePing('open', () => {
-    void sb.rpc('record_visit', { p_key: key }).then(({ error }) => {
-      if (error) console.warn('[visits] record_visit failed:', error.code, error.message, error.hint ?? '')
-      else console.info('[visits] record_visit ok for', key)
-    })
+  const p_path = currentPath()
+  void sb.rpc('record_page', { p_key: key, p_path }).then(({ error }) => {
+    if (error) console.warn('[visits] record_page failed:', error.code, error.message, error.hint ?? '')
+    else console.info('[visits] recorded', p_path, 'as', key)
   })
+}
+
+/** يُستدعى مرة واحدة مع تحميل الصفحة، وكل مرة يتغيّر فيها المسار */
+export function recordOpen() {
+  const sb = getSupabase()
+  if (!sb) {
+    console.warn('[visits] no Supabase client — visit tracking is OFF')
+    return
+  }
+  queuePing('open', fire)
+  if (!hashBound) {
+    hashBound = true
+    window.addEventListener('hashchange', () => queuePing('nav', fire))
+  }
   scheduleHeartbeat()
 }
 
 /** نبضة حياة كل 60 ثانية: بتحدّث آخر ظهور بس عشان عدّاد "لايف" يفضل دقيق */
 function scheduleHeartbeat() {
   if (pingTimers['hb']) return
-  pingTimers['hb'] = window.setInterval(() => {
-    const sb = getSupabase()
-    if (!sb) return
-    void sb.rpc('visit_ping', { p_key: visitorKey() }).then(({ error }) => {
-      if (error) console.warn('[visits] visit_ping failed:', error.code, error.message, error.hint ?? '')
-    })
-  }, 60_000)
+  pingTimers['hb'] = window.setInterval(fire, 60_000)
 }
 
 function queuePing(id: string, fn: () => void) {
@@ -54,5 +67,5 @@ function queuePing(id: string, fn: () => void) {
     } catch {
       /* ignore */
     }
-  }, 800)
+  }, 400)
 }

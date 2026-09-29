@@ -154,6 +154,34 @@ export interface AdminLiveUser {
   seconds_ago: number
 }
 
+export interface AdminTrainerHit {
+  username: string
+  signed_in: boolean
+  last_path: string | null
+  last_seen: string
+}
+
+/** مين فتح صفحة المدرب (سابقاً مش لايف) */
+export async function adminTrainerHits(limit = 50): Promise<AdminTrainerHit[] | null> {
+  const sb = getSupabase()
+  if (!sb) return null
+  try {
+    const { data, error } = await sb.rpc('admin_trainer_hits', { p_limit: limit })
+    if (error) {
+      console.warn('[admin] admin_trainer_hits failed:', error.message)
+      return null
+    }
+    if (!Array.isArray(data)) {
+      console.warn('[admin] admin_trainer_hits returned a non-array payload:', data)
+      return null
+    }
+    return data as AdminTrainerHit[]
+  } catch (err) {
+    console.warn('[admin] admin_trainer_hits threw:', err)
+    return null
+  }
+}
+
 /** مين متصل دلوقتي — الرجوع من RPC لازم يكون [] مش null عشان نفرّق */
 export async function adminLiveUsers(minutes = 5): Promise<AdminLiveUser[] | null> {
   const sb = getSupabase()

@@ -8,10 +8,12 @@ import {
   adminRpcReady,
   adminVisits,
   adminLiveUsers,
+  adminTrainerHits,
   envAdminUsername,
   type AdminRow,
   type AdminVisits,
   type AdminLiveUser,
+  type AdminTrainerHit,
 } from '../lib/admin'
 import { getSupabase } from '../lib/supabase'
 import { adminSendMessage, adminSendToAll } from '../lib/messages'
@@ -91,6 +93,20 @@ function ageOf(row: AdminRow): string | null {
   return null
 }
 
+/** وقت نسبي مختصر: "دلوقتي" / "من 5 د" / "من 3 س" */
+function formatWhen(iso: string): string {
+  const ms = Date.now() - new Date(iso).getTime()
+  if (!Number.isFinite(ms)) return '—'
+  if (ms < 0) return 'دلوقتي'
+  const m = Math.floor(ms / 60_000)
+  if (m < 1) return 'دلوقتي'
+  if (m < 60) return `من ${m} د`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `من ${h} س`
+  const d = Math.floor(h / 24)
+  return `من ${d} يوم`
+}
+
 export default function AdminPage() {
   const { user } = useAuth()
   const [ok, setOk] = useState<boolean | null>(null)
@@ -101,6 +117,7 @@ export default function AdminPage() {
   const [notice, setNotice] = useState('')
   const [rpcReady, setRpcReady] = useState<boolean | null>(null)
   const [live, setLive] = useState<AdminLiveUser[] | null>(null)
+  const [trainerHits, setTrainerHits] = useState<AdminTrainerHit[] | null>(null)
   const [recipient, setRecipient] = useState('') // '' = الكل، أو اسم طالب
   const [body, setBody] = useState('')
   const composeRef = useRef<HTMLDivElement>(null)
@@ -130,12 +147,18 @@ export default function AdminPage() {
     void adminLiveUsers().then((v) => {
       if (on) setLive(v)
     })
+    void adminTrainerHits().then((v) => {
+      if (on) setTrainerHits(v)
+    })
     const poll = window.setInterval(() => {
       void adminVisits().then((v) => {
         if (on && v !== null) setVisits(v)
       })
       void adminLiveUsers().then((v) => {
         if (on) setLive(v)
+      })
+      void adminTrainerHits().then((v) => {
+        if (on) setTrainerHits(v)
       })
     }, 10_000)
     return () => {
@@ -425,6 +448,56 @@ export default function AdminPage() {
                   <span className="shrink-0 text-[11.5px] text-[var(--ink-faint)]" dir="ltr">
                     {u.seconds_ago <= 4 ? 'الآن' : `من ${u.seconds_ago} ثانية`}
                     {u.opens > 1 ? ` · ${u.opens} فتحات` : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+      {trainerHits !== null && (
+        <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-sm">
+          <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] bg-[var(--line)]/50 px-4 py-2.5">
+            <span className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ink)]">
+              <span className="grid size-7 place-items-center rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                <IconClock size={15} />
+              </span>
+              <Ar>فتح صفحة المدرب</Ar>
+              <span className="rounded-md bg-[var(--line)] px-1.5 py-0.5 text-[11px] font-extrabold text-[var(--ink-soft)]">
+                {trainerHits.length}
+              </span>
+            </span>
+            <span className="text-[11px] text-[var(--ink-faint)]">
+              <Ar>كل من فتح صفحة المدرب — الأحدث فوق</Ar>
+            </span>
+          </div>
+
+          {trainerHits.length === 0 ? (
+            <p className="px-4 py-4 text-center text-[13px] text-[var(--ink-faint)]">
+              <Ar>لسه محدش فتح صفحة المدرب</Ar>
+            </p>
+          ) : (
+            <ul className="max-h-72 divide-y divide-[var(--line)] overflow-y-auto scrollbar-thin">
+              {trainerHits.map((h, i) => (
+                <li
+                  key={`${h.username}-${i}`}
+                  className="flex items-center justify-between gap-3 px-4 py-2 text-[13px]"
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="truncate font-semibold text-[var(--ink)]">{h.username}</span>
+                    {h.signed_in ? (
+                      <span className="rounded-md bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                        <Ar>مسجّل</Ar>
+                      </span>
+                    ) : (
+                      <span className="rounded-md bg-[var(--line)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--ink-faint)]">
+                        <Ar>زائر</Ar>
+                      </span>
+                    )}
+                  </span>
+                  <span className="shrink-0 text-[11px] text-[var(--ink-faint)]">
+                    {formatWhen(h.last_seen)}
                   </span>
                 </li>
               ))}
