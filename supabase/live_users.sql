@@ -1,4 +1,4 @@
--- ============================================================================
+﻿-- ============================================================================
 -- Speakout B1 — قائمة المتصلين حالياً (لوحة الأدمن)
 -- شغّل ده في Supabase Dashboard ← SQL Editor. آمن يعيد التشغيل.
 --
@@ -8,7 +8,8 @@
 -- 4) الصلاحيات
 -- ============================================================================
 
--- 1) هوية المتصل
+-- ملاحظة مهمة: لازم السطرين دول يتنفذوا قبل الـ functions،
+-- وإلا Postgres هيدي error: column "user_id" does not exist
 alter table public.active_visits add column if not exists user_id uuid;
 alter table public.active_visits add column if not exists username text;
 
@@ -26,7 +27,7 @@ begin
   end if;
 
   v_name := coalesce(
-    nullif(auth.jwt() -> 'user_metadata' ->> 'username', ''),
+    coalesce(nullif(auth.jwt() -> 'user_metadata' ->> 'username', ''), nullif(auth.jwt() -> 'user_metadata' ->> 'user_name', '')),
     nullif(auth.jwt() ->> 'email', '')
   );
 
@@ -59,7 +60,7 @@ as $$
     0,
     auth.uid(),
     coalesce(
-      nullif(auth.jwt() -> 'user_metadata' ->> 'username', ''),
+      coalesce(nullif(auth.jwt() -> 'user_metadata' ->> 'username', ''), nullif(auth.jwt() -> 'user_metadata' ->> 'user_name', '')),
       nullif(auth.jwt() ->> 'email', '')
     )
   )
