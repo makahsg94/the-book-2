@@ -287,7 +287,7 @@ export default function TrainerPage() {
             <div className="mt-5 flex flex-wrap items-center gap-2.5">
               <WhatsAppButton
                 href={generalWhatsappLink()}
-                label={`احجز عبر واتساب ${WHATSAPP_DISPLAY}`}
+                label={`ابدأ الحجز الآن عبر واتساب · ${WHATSAPP_DISPLAY}`}
               />
               {TRAINER_LINK && (
                 <a
@@ -446,12 +446,13 @@ export default function TrainerPage() {
           ابدأ أول حصة مع أبو بكر
         </h2>
         <p className="mx-auto mt-2 max-w-lg text-[14px] leading-relaxed text-white/85" dir="rtl" lang="ar">
-          تسع سنين خبرة، واختبار تحديد مستوى مجاني قبل ما تدفع. ابعت رسالة على الواتساب دلوقتي واحجز الباقة اللي تناسبك.
+          تدرّب مع تسع سنوات من الخبرة، وابدأ باختبار تحديد مستوى مجاني قبل أي التزام مالي.
+          راسلني على الواتساب وسيتم الرد على المواعيد المتاحة وتفاصيل الدفع.
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
           <WhatsAppButton
             href={whatsappLink(planMessage('twice'))}
-            label={`احجز باقة الحصتين في الأسبوع · ${WHATSAPP_DISPLAY}`}
+            label={`احجز باقة الحصتين أسبوعياً · ${WHATSAPP_DISPLAY}`}
           />
           <Link
             to="/shadowing"

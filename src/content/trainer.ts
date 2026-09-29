@@ -53,8 +53,8 @@ export const TRAINER = {
   role: 'Professional online English trainer',
   roleAr: 'مدرب إنجليزي أونلاين محترف',
   years: 9,
-  tagline: 'Nine years of live 1:1 teaching, from zero confidence to real conversations.',
-  taglineAr: 'تسع سنين تدريس لايف ١:١ — من إنجليزي مش واثق لمحادثات حقيقية.',
+  tagline: 'Nine years of live 1:1 teaching — a structured plan built around your level, your goals and your real schedule.',
+  taglineAr: 'تسع سنوات من التدريس المباشر ١:١ — خطة مذاكرة منظّمة تُبنى على مستواك وهدفك وجدولك الفعلي.',
   bio: [
     'I teach English online the way it actually gets used: you talk from the first minute, and every grammar point lands on something you just said out loud.',
     'Nine years of weekly students taught me what keeps people going \u2014 small, measurable wins and a plan that fits a real schedule, not a perfect one.',
@@ -315,15 +315,27 @@ function planById(id: string): Plan | undefined {
 export function planMessage(planId: string): string {
   const plan = planById(planId)
   const planLine = plan
-    ? `الباقة المطلوبة: ${plan.nameAr} — ${plan.perWeek} حصة في الأسبوع (~${plan.perMonth} في الشهر) بـ ${plan.price} جنيه\n`
-    : ''
+    ? `• الباقة المطلوبة: ${plan.nameAr}\n` +
+      `• الوتيرة: ${plan.perWeek} حصة أسبوعياً (~${plan.perMonth} حصة شهرياً)\n` +
+      `• الاشتراك الشهري: ${plan.price} جنيه\n`
+    : '• الباقة المطلوبة: ____________________\n'
   return (
-    `السلام عليكم أبو بكر، أنا مهتم بالاشتراك الشهري للمدرب الأونلاين.\n\n` +
+    `السلام عليكم أستاذ أبو بكر،\n\n` +
+    `أنا [الاسم]، وأرغب في حجز اشتراك شهري لتدريس الإنجليزي أونلاين عن طريقكم.\n` +
+    `اطّلعت على صفحة المدرب داخل الموقع، وأود تأكيد التفاصيل التالية:\n\n` +
     planLine +
-    `مستواي الحالي: \n` +
-    `هدفي من الإنجليزي: \n` +
-    `المواعيد اللي تناسبني: \n\n` +
-    `ممكن أعرف التفاصيل؟`
+    '\n' +
+    `ولكي أجهّز خطة مذاكرة مناسبة لي من أول حصة، أرجو إفادتي بالتالي:\n\n` +
+    `1) مستواي الحالي في الإنجليزي: ____________________\n` +
+    `2) هدفي من الدراسة ( speaking / listening / writing / exam ): ____________________\n` +
+    `3) الأيام والأوقات المتاحة عندي أسبوعياً: ____________________\n\n` +
+    `كما أود الاستفسار عن:\n` +
+    `• مواعيد الحصص المتاحة تعاوناً مع جدولي،\n` +
+    `• طريقة الدفع، وما إذا كان الدفع مقدماً لحصص متعددة،\n` +
+    `• أي متطلبات أو ملفات أحتاج تجهيزها قبل أول حصة.\n\n` +
+    `شاكر لكم حسن تعاونكم، وأتطلع لردكم.\n` +
+    `مع خالص التقدير،\n` +
+    `[الاسم]`
   )
 }
 
@@ -335,6 +347,19 @@ export function whatsappLink(message: string): string {
 /** لينك واتساب عام من غير باقة محددة */
 export function generalWhatsappLink(): string {
   return whatsappLink(
-    `السلام عليكم أبو بكر، عايز أعرف تفاصيل الاشتراك الشهري والباقات المتاحة (حصة / حصتين / تلاتة في الأسبوع).`,
+    `السلام عليكم أستاذ أبو بكر،\n\n` +
+      `أنا [الاسم]، وأرغب في الاشتراك في دروس إنجليزي أونلاين فردية عن طريقكم.\n\n` +
+      `قرأت صفحة المدرب داخل الموقع وأود الاستفسار عن:\n\n` +
+      `1) الباقات المتاحة (حصة / حصتين / تلاتة في الأسبوع) وأفضل الأنسب لمستواي،\n` +
+      `2) التكلفة الشهرية وخصم الدفع المقدم،\n` +
+      `3) توقيت الحصص المتاحة وتوافقها مع جدولي،\n` +
+      `4) مضمون اختبار تحديد المستوى في أول مرة،\n` +
+      `5) طريقة الدفع، وأي متطلبات قبل أول حصة.\n\n` +
+      `مستواي الحالي: ____________________\n` +
+      `هدفي من الدراسة: ____________________\n` +
+      `الأيام والأوقات المتاحة عندي: ____________________\n\n` +
+      `شاكر لكم حسن تعاونكم، وأتطلع لردكم.\n` +
+      `مع خالص التقدير،\n` +
+      `[الاسم]`,
   )
 }
