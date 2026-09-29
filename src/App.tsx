@@ -66,7 +66,7 @@ function Gate() {
   const showToast = useToast()
   useEffect(() => {
     if (ready) recordOpen()
-  }, [ready])
+  }, [ready, user])
   useEffect(() => {
     if (!ready || !user) return
     const t = window.setTimeout(() => {

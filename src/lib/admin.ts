@@ -160,9 +160,17 @@ export async function adminLiveUsers(minutes = 5): Promise<AdminLiveUser[] | nul
   if (!sb) return null
   try {
     const { data, error } = await sb.rpc('admin_live_users', { p_minutes: minutes })
-    if (error || !Array.isArray(data)) return null
+    if (error) {
+      console.warn('[admin] admin_live_users RPC failed:', error.message)
+      return null
+    }
+    if (!Array.isArray(data)) {
+      console.warn('[admin] admin_live_users returned a non-array payload:', data)
+      return null
+    }
     return data as AdminLiveUser[]
-  } catch {
+  } catch (err) {
+    console.warn('[admin] admin_live_users threw:', err)
     return null
   }
 }

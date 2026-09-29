@@ -44,22 +44,29 @@ begin
 end;
 $$;
 
+-- ملاحظة: visit_ping بيعمل upsert مش update، عشان لو المفتاح ده جديد
+-- (أول مرة بعد الموبايل الجديد) ينشئ الصف ويكتب الاسم فوراً
+-- بدل ما يستنى record_visit تتفادى.
 create or replace function public.visit_ping(p_key text)
 returns void
 language sql
 security definer
 as $$
-  update public.active_visits
-     set last_seen = now(),
-         user_id  = coalesce(auth.uid(), user_id),
-         username = coalesce(
-           nullif(auth.jwt() -> 'user_metadata' ->> 'username', ''),
-           nullif(auth.jwt() ->> 'email', ''),
-           username
-         )
-   where visitor_key = p_key
-     and p_key is not null
-     and length(p_key) <= 128;
+  insert into public.active_visits (visitor_key, last_seen, opens, user_id, username)
+  values (
+    p_key,
+    now(),
+    0,
+    auth.uid(),
+    coalesce(
+      nullif(auth.jwt() -> 'user_metadata' ->> 'username', ''),
+      nullif(auth.jwt() ->> 'email', '')
+    )
+  )
+  on conflict (visitor_key) do update
+    set last_seen = now(),
+        user_id  = coalesce(excluded.user_id,  public.active_visits.user_id),
+        username = coalesce(excluded.username, public.active_visits.username);
 $$;
 
 -- 3) القائمة: مين متصل دلوقتي
