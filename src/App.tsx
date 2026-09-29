@@ -8,7 +8,6 @@ import { dailyReminder } from './lib/reminders'
 import { newInboxForBrowser } from './lib/messages'
 import { ConfettiHost } from './lib/confetti'
 import Layout from './components/Layout'
-import SponsorBar from './components/SponsorBar'
 import HomePage from './pages/HomePage'
 import BookPage from './pages/BookPage'
 import UnitPage from './pages/UnitPage'
@@ -88,12 +87,7 @@ function Gate() {
   }, [ready, user, showToast])
   if (!user) {
     if (!ready) return <BootSplash />
-    return (
-      <>
-        <AccountGate />
-        <SponsorBar />
-      </>
-    )
+    return <AccountGate />
   }
   return (
     <Routes>
