@@ -146,3 +146,23 @@ export async function adminVisits(): Promise<AdminVisits | null> {
     return null
   }
 }
+
+export interface AdminLiveUser {
+  username: string
+  signed_in: boolean
+  opens: number
+  seconds_ago: number
+}
+
+/** مين متصل دلوقتي — الرجوع من RPC لازم يكون [] مش null عشان نفرّق */
+export async function adminLiveUsers(minutes = 5): Promise<AdminLiveUser[] | null> {
+  const sb = getSupabase()
+  if (!sb) return null
+  try {
+    const { data, error } = await sb.rpc('admin_live_users', { p_minutes: minutes })
+    if (error || !Array.isArray(data)) return null
+    return data as AdminLiveUser[]
+  } catch {
+    return null
+  }
+}

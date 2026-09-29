@@ -7,9 +7,11 @@ import {
   adminDeleteUser,
   adminRpcReady,
   adminVisits,
+  adminLiveUsers,
   envAdminUsername,
   type AdminRow,
   type AdminVisits,
+  type AdminLiveUser,
 } from '../lib/admin'
 import { getSupabase } from '../lib/supabase'
 import { adminSendMessage, adminSendToAll } from '../lib/messages'
@@ -98,6 +100,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false)
   const [notice, setNotice] = useState('')
   const [rpcReady, setRpcReady] = useState<boolean | null>(null)
+  const [live, setLive] = useState<AdminLiveUser[] | null>(null)
   const [recipient, setRecipient] = useState('') // '' = الكل، أو اسم طالب
   const [body, setBody] = useState('')
   const composeRef = useRef<HTMLDivElement>(null)
@@ -124,9 +127,15 @@ export default function AdminPage() {
     void adminRpcReady().then((v) => {
       if (on) setRpcReady(v)
     })
+    void adminLiveUsers().then((v) => {
+      if (on) setLive(v)
+    })
     const poll = window.setInterval(() => {
       void adminVisits().then((v) => {
         if (on && v !== null) setVisits(v)
+      })
+      void adminLiveUsers().then((v) => {
+        if (on) setLive(v)
       })
     }, 10_000)
     return () => {
@@ -367,6 +376,76 @@ export default function AdminPage() {
           <Ar>تحديث</Ar>
         </button>
       </div>
+
+      {/* مين متصل دلوقتي — مش بس عدد، لكن الأسماء */}
+      {live !== null && (
+        <div className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-sm">
+          <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] bg-[var(--line)]/50 px-4 py-2.5">
+            <span className="inline-flex items-center gap-2 text-sm font-bold text-[var(--ink)]">
+              <span className="relative grid size-7 place-items-center rounded-lg bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300">
+                <IconEye size={15} />
+                {live.length > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 size-2.5 rounded-full bg-emerald-500 ring-2 ring-[var(--surface)]" />
+                )}
+              </span>
+              <Ar>متصل دلوقتي</Ar>
+              <span className="rounded-md bg-[var(--line)] px-1.5 py-0.5 text-[11px] font-extrabold text-[var(--ink-soft)]">
+                {live.length}
+              </span>
+            </span>
+            <span className="text-[11px] text-[var(--ink-faint)]">
+              <Ar>بيتحدّث كل ١٠ ثواني · آخر ٥ دقايق</Ar>
+            </span>
+          </div>
+
+          {live.length === 0 ? (
+            <p className="px-4 py-4 text-center text-[13px] text-[var(--ink-faint)]">
+              <Ar>محدش فاتح الموقع في آخر ٥ دقايق.</Ar>
+            </p>
+          ) : (
+            <ul className="max-h-64 divide-y divide-[var(--line)] overflow-y-auto scrollbar-thin">
+              {live.map((u, i) => (
+                <li
+                  key={`${u.username}-${i}`}
+                  className="flex items-center justify-between gap-3 px-4 py-2 text-[13px]"
+                >
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="size-2 shrink-0 rounded-full bg-emerald-500" />
+                    <span className="truncate font-semibold text-[var(--ink)]">{u.username}</span>
+                    {u.signed_in ? (
+                      <span className="shrink-0 rounded bg-brand-50 px-1.5 py-0.5 text-[10px] font-bold text-brand-700 dark:bg-brand-950 dark:text-brand-300">
+                        مسجّل
+                      </span>
+                    ) : (
+                      <span className="shrink-0 rounded bg-[var(--line)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--ink-faint)]">
+                        زائر
+                      </span>
+                    )}
+                  </span>
+                  <span className="shrink-0 text-[11.5px] text-[var(--ink-faint)]" dir="ltr">
+                    {u.seconds_ago <= 4 ? 'الآن' : `من ${u.seconds_ago} ثانية`}
+                    {u.opens > 1 ? ` · ${u.opens} فتحات` : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+      {live === null && getSupabase() !== null && rpcReady === true && (
+        <p
+          dir="rtl"
+          lang="ar"
+          className="rounded-lg border border-amber-300 bg-amber-50 px-3 py-2.5 text-[13px] leading-relaxed text-amber-900 dark:border-amber-800 dark:bg-amber-950/50 dark:text-amber-300"
+        >
+          <Ar>
+            قائمة المتصلين لسه متشغّلتش. شغّل الملف <code className="font-mono text-[12px]">live_users.sql</code> من مجلد
+            supabase في Supabase Dashboard ← SQL Editor. الملف ده بيضيف عمود اسم المستخدم على جدول الزيارات وبيعمل
+            دالة <code className="font-mono text-[12px]">admin_live_users</code> اللي بترجّع الأسماء.
+          </Ar>
+        </p>
+      )}
 
       <div ref={composeRef} className="scroll-mt-24 overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface)] shadow-sm">
         <div className="flex items-center justify-between gap-3 border-b border-[var(--line)] bg-[var(--line)]/50 px-4 py-2.5">
