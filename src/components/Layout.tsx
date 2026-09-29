@@ -4,6 +4,7 @@ import Header from './Header'
 import Sidebar from './Sidebar'
 import MiniPlayer from './MiniPlayer'
 import BackToTop from './BackToTop'
+import SponsorBar from './SponsorBar'
 import { LightboxProvider } from './Media'
 import { IconClose } from './Icons'
 
@@ -53,6 +54,7 @@ export default function Layout() {
 
       <MiniPlayer />
       <BackToTop />
+      <SponsorBar />
 
       <footer className="mx-auto max-w-4xl px-4 pb-8 pt-4 text-center text-xs text-[var(--ink-faint)]">
         <p>

@@ -12,6 +12,9 @@ An interactive companion app for the **Speakout 3rd Edition B1 Student's Book**.
 - **Quizzes & in-lesson exercises** validated by `scripts/validate.mjs`
 - **Progress & milestones** saved locally
 - Full-text **search** across units, exercises and audio
+- **Online English trainer** page (`/#/trainer`): monthly 1:1 subscriptions, WhatsApp
+  booking, portfolio link — plus a dismissible sponsor bar shown site-wide, before and
+  after sign-in
 
 ## Tech stack
 
@@ -67,3 +70,23 @@ Every visitor must log in or register before using the app; progress is saved pe
 - `public/audio` – B1 audio pack (`Speakout_3E_B1_SB_*.mp3`)
 - `public/videos` – B1 BBC video library
 - `src/assets/book/` – page image renders
+- `src/assets/trainer/` – trainer photo (`abubakr-320.webp`, `abubakr-640.webp`,
+  `abubakr-320.png`). Regenerate the compressed copies after swapping the source photo:
+  `node scripts/trainer-photo.mjs`
+- `src/content/trainer.ts` – **all** trainer copy: name, WhatsApp number, prices, plans,
+  perks, steps and FAQ. Edit this file only; no page needs touching.
+
+## Scripts
+
+| command | what it does |
+| --- | --- |
+| `npm run dev` | local dev server on :5173 |
+| `npm run validate` | validate units, quizzes and exercises |
+| `npm run lint` | oxlint |
+| `npm run build` | type-check + production build |
+| `npm run preview` | preview the production build |
+| `node scripts/trainer-photo.mjs` | regenerate the compressed trainer photo |
+| `node scripts/check-deploy.mjs` | serve `dist/` under the Pages base path and assert every asset resolves |
+
+`start.bat` launches the dev server from its own folder and opens the browser only after
+the server actually answers.

@@ -8,6 +8,7 @@ import { dailyReminder } from './lib/reminders'
 import { newInboxForBrowser } from './lib/messages'
 import { ConfettiHost } from './lib/confetti'
 import Layout from './components/Layout'
+import SponsorBar from './components/SponsorBar'
 import HomePage from './pages/HomePage'
 import BookPage from './pages/BookPage'
 import UnitPage from './pages/UnitPage'
@@ -18,6 +19,7 @@ import PageView from './pages/PageView'
 import BankPage from './pages/BankPage'
 import ReviewPage from './pages/ReviewPage'
 import ShadowingPage from './pages/ShadowingPage'
+import TrainerPage from './pages/TrainerPage'
 import AccountPage, { AccountGate } from './pages/AccountPage'
 import AdminPage from './pages/AdminPage'
 import { Link } from 'react-router-dom'
@@ -86,7 +88,12 @@ function Gate() {
   }, [ready, user, showToast])
   if (!user) {
     if (!ready) return <BootSplash />
-    return <AccountGate />
+    return (
+      <>
+        <AccountGate />
+        <SponsorBar />
+      </>
+    )
   }
   return (
     <Routes>
@@ -103,6 +110,7 @@ function Gate() {
         <Route path="bank/:bankId" element={<BankPage />} />
         <Route path="review" element={<ReviewPage />} />
         <Route path="shadowing" element={<ShadowingPage />} />
+        <Route path="trainer" element={<TrainerPage />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

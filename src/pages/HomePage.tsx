@@ -180,6 +180,29 @@ export default function HomePage() {
         </Link>
       </section>
 
+      {/* ---- Trainer banner ---- */}
+      <section className="mx-auto max-w-2xl">
+        <Link
+          to="/trainer"
+          className="group flex items-center gap-4 rounded-2xl border border-brand-300 bg-gradient-to-r from-brand-600 to-accent-600 p-5 shadow-md transition-all hover:shadow-lg dark:border-brand-700"
+        >
+          <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-white/15 text-white">
+            <IconMic size={22} />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-lg font-bold tracking-tight text-white" dir="rtl" lang="ar">
+              مدرب إنجليزي أونلاين · أبو بكر مختار
+            </span>
+            <span className="block text-[13px] leading-snug text-white/85" dir="rtl" lang="ar">
+              ٩ سنين خبرة · حصص لايف ١:١ على زووم · اشتراك شهري: حصة أو اتنين أو تلاتة في الأسبوع
+            </span>
+          </span>
+          <span className="shrink-0 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-brand-700 transition-transform group-hover:translate-x-0.5">
+            الباقات
+          </span>
+        </Link>
+      </section>
+
       {/* ---- Shadowing banner ---- */}
       <section className="mx-auto max-w-2xl">
         <Link

@@ -178,7 +178,7 @@ export function AccountGate() {
       : 'idle'
 
   return (
-    <div className="auth-scene relative min-h-screen overflow-hidden px-4 py-8 sm:px-6 sm:py-10">
+    <div className="auth-scene relative min-h-screen overflow-hidden px-4 pb-28 pt-8 sm:px-6 sm:pb-28 sm:pt-10">
       <div aria-hidden className="auth-grid" />
       <div
         aria-hidden
