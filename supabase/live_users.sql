@@ -1,22 +1,18 @@
 -- ============================================================================
 -- Speakout B1 — قائمة المتصلين حالياً (لوحة الأدمن)
+-- شغّل ده في Supabase Dashboard ← SQL Editor. آمن يعيد التشغيل.
 --
--- ليه الملف ده: جدول active_visits كان بيخزّن المفتاح المجهول بس
--- (visitor_key)، فالأدمن كان يقدر يعدّ "لايف" رقم لكنه مش هيعرف مين.
--- هنا بنضيف مين المستخدم، ونعمل دالة ترجّع القائمة نفسها.
---
--- ملاحظة: الملف بيعيد إنشاء record_visit / visit_ping / admin_visits
--- بنفس الأسماء، فلو نسخة قديمة منهم كانت متطبّقة على السيرفر
--- إعادة تشغيل الملف ده يحدّثها كمان.
---
--- شغّل ده في Supabase Dashboard ← SQL Editor بعد schema.sql و admin.sql و visits.sql.
+-- 1) أعمدة الهوية على جدول الزيارات
+-- 2) دوال الكتابة تسجّل اسم المستخدم مع كل نبضة
+-- 3) دالة القراءة ترجّع القائمة للأدمن
+-- 4) الصلاحيات
 -- ============================================================================
 
--- 1) مين ده المستخدم اللي فاتح الموقع دلوقتي
-alter table public.active_visits add column if not exists user_id uuid references auth.users (id) on delete set null;
+-- 1) هوية المتصل
+alter table public.active_visits add column if not exists user_id uuid;
 alter table public.active_visits add column if not exists username text;
 
--- 2) نعيد كتابة دوال الكتابة عشان تسجّل الهوية مع كل نبضة
+-- 2) كل نبضة تسجّل مين ده
 create or replace function public.record_visit(p_key text)
 returns void
 language plpgsql
@@ -43,7 +39,6 @@ begin
           else public.active_visits.opens
         end,
         last_seen = now(),
-        -- متسجّلش بيانات فاضية فوق بيانات موجودة
         user_id  = coalesce(excluded.user_id,  public.active_visits.user_id),
         username = coalesce(excluded.username, public.active_visits.username);
 end;
@@ -67,21 +62,7 @@ as $$
      and length(p_key) <= 128;
 $$;
 
--- 3) العدادات (نفسها، بس بتتحدّث لو النسخة القديمة كانت مختلفة)
-create or replace function public.admin_visits()
-returns json
-language sql
-security definer
-stable
-as $$
-  select case when public.is_admin() then json_build_object(
-    'today', (select count(*) from public.active_visits where last_seen >= date_trunc('day', now())),
-    'live',  (select count(*) from public.active_visits where last_seen >= now() - interval '5 minutes'),
-    'total', (select coalesce(sum(opens), 0) from public.active_visits)
-  ) else '{}'::json end;
-$$;
-
--- 4) القائمة نفسها: مين متصل دلوقتي
+-- 3) القائمة: مين متصل دلوقتي
 create or replace function public.admin_live_users(p_minutes int default 5)
 returns json
 language sql
@@ -90,11 +71,10 @@ stable
 as $$
   select case when public.is_admin()
     then coalesce(json_agg(row_to_json(t) order by t.seconds_ago), '[]'::json)
-    else '[]'::json
-  end
+    else '[]'::json end
   from (
     select
-      coalesce(v.username, 'زائر (' || left(v.visitor_key, 12) || ')') as username,
+      coalesce(v.username, 'زائر') as username,
       (v.user_id is not null)                        as signed_in,
       v.opens,
       extract(epoch from (now() - v.last_seen))::int as seconds_ago
@@ -103,13 +83,11 @@ as $$
   ) t;
 $$;
 
--- 5) الصلاحيات
+-- 4) الصلاحيات
 revoke all on function public.record_visit(text) from public;
 revoke all on function public.visit_ping(text) from public;
-revoke all on function public.admin_visits() from public, anon;
 revoke all on function public.admin_live_users(int) from public, anon;
 
-grant execute on function public.record_visit(text)      to anon, authenticated;
-grant execute on function public.visit_ping(text)         to anon, authenticated;
-grant execute on function public.admin_visits()           to authenticated;
-grant execute on function public.admin_live_users(int)    to authenticated;
+grant execute on function public.record_visit(text)   to anon, authenticated;
+grant execute on function public.visit_ping(text)      to anon, authenticated;
+grant execute on function public.admin_live_users(int) to authenticated;
