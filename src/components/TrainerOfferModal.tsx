@@ -12,7 +12,7 @@ import {
 import { playSound } from '../lib/sounds'
 import { IconArrowUpRight, IconCheck, IconClock, IconClose } from './Icons'
 
-const SHOW_AFTER_MS = 2200
+const SHOW_AFTER_MS = 1000
 
 /**
  * نافذة دعوة المدرب — بتظهر لكل زائر عند فتح الصفحة (أو إعادة تحميلها)،
