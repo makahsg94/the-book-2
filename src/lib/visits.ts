@@ -19,9 +19,17 @@ export function visitorKey(): string {
 /** يُستدعى مرة واحدة مع تحميل الصفحة: تعدّ فتحة جديدة ويعمل update لآخر ظهور */
 export function recordOpen() {
   const sb = getSupabase()
-  if (!sb) return
+  if (!sb) {
+    console.warn('[visits] no Supabase client — visit tracking is OFF')
+    return
+  }
   const key = visitorKey()
-  queuePing('open', () => void sb.rpc('record_visit', { p_key: key }))
+  queuePing('open', () => {
+    void sb.rpc('record_visit', { p_key: key }).then(({ error }) => {
+      if (error) console.warn('[visits] record_visit failed:', error.code, error.message, error.hint ?? '')
+      else console.info('[visits] record_visit ok for', key)
+    })
+  })
   scheduleHeartbeat()
 }
 
@@ -31,7 +39,9 @@ function scheduleHeartbeat() {
   pingTimers['hb'] = window.setInterval(() => {
     const sb = getSupabase()
     if (!sb) return
-    void sb.rpc('visit_ping', { p_key: visitorKey() })
+    void sb.rpc('visit_ping', { p_key: visitorKey() }).then(({ error }) => {
+      if (error) console.warn('[visits] visit_ping failed:', error.code, error.message, error.hint ?? '')
+    })
   }, 60_000)
 }
 
