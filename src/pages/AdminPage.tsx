@@ -35,12 +35,29 @@ function formatDate(iso: string | null | undefined): string {
   }
 }
 
+const PROGRESS_KEY = 'speakout-b1.progress.v1'
+
+/**
+ * الـ RPC `admin_data` بيرجّع النتيجة كـ jsonb_object_agg(key, value)، فالتقدم
+ * جواه تحت المفتاح المسمّى `speakout-b1.progress.v1` — مش في أول الـ object.
+ * أما الـ fallback من localStorage (`localProgressFor`) فرجّع الـ ProgressState
+ * نفسه على طول. поэтому بندوّر على المفتاح المسمّى الأول، ونرجع للسطح لو مش موجود.
+ */
+function progressOf(row: AdminRow): Record<string, unknown> | null {
+  const d = row.data
+  if (!d || typeof d !== 'object' || Array.isArray(d)) return null
+  const rec = d as Record<string, unknown>
+  const p = rec[PROGRESS_KEY]
+  if (p && typeof p === 'object' && !Array.isArray(p)) return p as Record<string, unknown>
+  return rec
+}
+
 function summaryOf(row: AdminRow): { xp: number; lessons: number; quizzes: number } {
   let xp = 0
   let lessons = 0
   let quizzes = 0
-  const d = row.data
-  if (d && typeof d === 'object') {
+  const d = progressOf(row)
+  if (d) {
     if (typeof d.xp === 'number') xp = Math.round(d.xp)
     const ls = d.lessons
     if (ls && typeof ls === 'object' && !Array.isArray(ls)) {
@@ -240,6 +257,25 @@ export default function AdminPage() {
           className="rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-2 text-[13px] text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-300"
         >
           {notice}
+        </p>
+      )}
+
+      {getSupabase() === null && (
+        <p
+          dir="rtl"
+          lang="ar"
+          className="rounded-lg border border-red-400 bg-red-50 px-3 py-2.5 text-[13px] leading-relaxed text-red-900 dark:border-red-800 dark:bg-red-950/50 dark:text-red-300"
+        >
+          <Ar>
+            <strong className="block font-bold">Supabase مش متظبطة — البيانات دي محلية على هذا الجهاز فقط.</strong>
+            الملف <code className="font-mono text-[12px]">.env</code> مش موجود، فالموقع بيشتغل أوفلاين وما
+            بيسجّلش أي طالب في السيرفر. اعمل ملف <code className="font-mono text-[12px]">.env</code> في
+            جذر المشروع وضيف فيه <code className="font-mono text-[12px]">VITE_SUPABASE_URL</code> و
+            <code className="font-mono text-[12px]">VITE_SUPABASE_ANON_KEY</code> و
+            <code className="font-mono text-[12px]">VITE_ADMIN_USERNAME</code> (نسخة جاهزة في
+            <code className="font-mono text-[12px]">.env.production</code>)، وبعدين اعمل refresh.
+            لازم تشغّل <code className="font-mono text-[12px]">npm run dev</code> تاني.
+          </Ar>
         </p>
       )}
 
