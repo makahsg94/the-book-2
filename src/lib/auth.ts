@@ -53,12 +53,41 @@ export async function syntheticEmail(username: string): Promise<string> {
   }
 }
 
+export const DB_UNAVAILABLE_ERROR = 'قاعدة البيانات مش متاحة حاليًا — جرّب تاني بعد شوية'
+
+// أخطاء معناها إن السيرفر/قاعدة البيانات مش قادرين نوصلهم، مش إن الباسورد غلط
+function isConnectionError(message: string): boolean {
+  const m = message.toLowerCase()
+  return [
+    'failed to fetch',
+    'fetch failed',
+    'load failed',
+    'network',
+    'timeout',
+    'timed out',
+    'econnrefused',
+    'econnreset',
+    'enotfound',
+    'err_name_not_resolved',
+    'err_internet_disconnected',
+    'service unavailable',
+    'project is paused',
+    'project paused',
+    'paused',
+    'bad gateway',
+    'gateway timeout',
+    'could not connect',
+    'connection',
+  ].some((needle) => m.includes(needle))
+}
+
 function mapError(message: string): string {
   const m = message.toLowerCase()
   if (m.includes('already registered') || m.includes('over email rate limit')) return 'الإسم ده متسجل قبل كده، جرّب اسم تاني'
   if (m.includes('invalid login credentials')) return 'كلمة السر غلط أو مفيش حساب بالاسم ده'
-  if (m.includes('email not confirmed') || m.includes('email address') && m.includes('confirm')) return 'فعّل الحساب من الإيميل الأول'
+  if (m.includes('email not confirmed') || (m.includes('email address') && m.includes('confirm'))) return 'فعّل الحساب من الإيميل الأول'
   if (m.includes('should be at least') || m.includes('password')) return 'كلمة السر أقل ما فيها 6 حروف'
+  if (isConnectionError(m)) return DB_UNAVAILABLE_ERROR
   return 'حصلت مشكلة في الاتصال بالسيرفر، حاول تاني'
 }
 
@@ -180,13 +209,18 @@ export async function register(username: string, password: string, age?: number)
   const sb = getSupabase()
   if (sb) {
     const email = await syntheticEmail(name)
-    const { data, error } = await sb.auth.signUp({
-      email,
-      password,
-      options: { data: { username: name, ...(age !== undefined ? { age } : {}) } },
-    })
-    if (error) return { ok: false, error: mapError(error.message) }
-    if (!data.session) return { ok: false, error: 'تم إرسال تأكيد للإيميل — فعّل الحساب وبعدين سجّل دخول' }
+    try {
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password,
+        options: { data: { username: name, ...(age !== undefined ? { age } : {}) } },
+      })
+      if (error) return { ok: false, error: mapError(error.message) }
+      if (!data.session) return { ok: false, error: 'تم إرسال تأكيد للإيميل — فعّل الحساب وبعدين سجّل دخول' }
+    } catch (err) {
+      console.warn('[auth] signUp failed', err)
+      return { ok: false, error: DB_UNAVAILABLE_ERROR }
+    }
     write(SESSION_KEY, { username: name })
     return { ok: true }
   }
@@ -208,8 +242,13 @@ export async function login(username: string, password: string): Promise<AuthRes
   const sb = getSupabase()
   if (sb) {
     const email = await syntheticEmail(name)
-    const { error } = await sb.auth.signInWithPassword({ email, password })
-    if (error) return { ok: false, error: mapError(error.message) }
+    try {
+      const { error } = await sb.auth.signInWithPassword({ email, password })
+      if (error) return { ok: false, error: mapError(error.message) }
+    } catch (err) {
+      console.warn('[auth] signIn failed', err)
+      return { ok: false, error: DB_UNAVAILABLE_ERROR }
+    }
     write(SESSION_KEY, { username: name })
     return { ok: true }
   }
